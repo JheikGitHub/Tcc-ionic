@@ -56,9 +56,9 @@ export class LoginPage {
           (data: Usuario) => {
             this.presentLoading().dismiss();
             if (data.Perfil.toLocaleLowerCase() == "aluno") {
-              this.navCtrl.push(ParticipantePage.name)
+              this.navCtrl.push(ParticipantePage.name, { id: data.Id })
             } else if (data.Perfil.toLocaleLowerCase() == "funcionario") {
-              this.navCtrl.push(FuncionarioPage.name)
+              this.navCtrl.push(FuncionarioPage.name, { id: data.Id })
             } else {
               this.navCtrl.push(AdminPage.name)
             }

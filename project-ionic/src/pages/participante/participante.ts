@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the ParticipantePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { Evento } from '../../models/evento';
+import { ParticipanteProvider } from '../../providers/participante/participante';
 
 @IonicPage()
 @Component({
@@ -15,11 +10,27 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ParticipantePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  private eventos: Evento[] = [];
+  private IdUsuario;
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private service: ParticipanteProvider) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ParticipantePage');
-  }
+    this.IdUsuario = this.navParams.get('id');
 
+    console.log(this.IdUsuario);
+
+    this.service.buscaEventosIncritos(this.IdUsuario).subscribe(
+      (data: Evento[]) => {
+        this.eventos = data
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
 }

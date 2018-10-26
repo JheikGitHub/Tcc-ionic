@@ -1,18 +1,31 @@
-<!--
-  Generated template for the ParticipantePage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>participante</ion-title>
+  <ion-navbar color="primary">
+    <ion-title text-center>Minhas Inscrições</ion-title>
   </ion-navbar>
-
 </ion-header>
 
-
 <ion-content padding>
+  <h2 text-center>Eventos</h2>
 
+  <ion-list>
+    <ion-card *ngFor="let evento of eventos">
+      <img src="http://localhost:51990/Imagens/Eventos/{{evento.PathImagem}}" alt="Imagem do evento">
+      <ion-card-header>
+        {{evento.Nome}}
+      </ion-card-header>
+      <ion-card-content>
+        {{evento.Descricao}}
+      </ion-card-content>
+
+      <ion-row>
+        <ion-col>
+          <button ion-button icon-start clear small>
+            <ion-icon name="checkbox-outline"></ion-icon>
+            <div>Corfimar presença</div>
+          </button>
+        </ion-col>
+      </ion-row>
+
+    </ion-card>
+  </ion-list>
 </ion-content>

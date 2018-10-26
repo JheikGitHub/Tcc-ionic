@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the FuncionarioPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { FuncionarioProvider } from '../../providers/funcionario/funcionario';
+import { Evento } from '../../models/evento';
 
 @IonicPage()
 @Component({
@@ -15,11 +10,22 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class FuncionarioPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  private eventos: Evento[] = [];
+  private IdUsuario;
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private serviceFuncionario: FuncionarioProvider) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad FuncionarioPage');
+    this.IdUsuario = this.navParams.get('id');
+
+    this.serviceFuncionario.buscaEventosFuncionario(this.IdUsuario).subscribe(
+      (data: Evento[]) => { this.eventos = data },
+      (err) => { console.log(err) }
+    );
   }
 
 }

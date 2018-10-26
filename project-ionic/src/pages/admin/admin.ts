@@ -1,12 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AdminProvider } from '../../providers/admin/admin';
+import { Evento } from '../../models/evento';
 
-/**
- * Generated class for the AdminPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -15,11 +11,18 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class AdminPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  private eventos: Evento[] = [];
+
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    private adminService: AdminProvider) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad AdminPage');
+    this.adminService.buscaTodosEventos().subscribe(
+      (dados: Evento[]) => { this.eventos = dados },
+      (err) => { console.log(err) }
+    );
   }
+
 
 }
