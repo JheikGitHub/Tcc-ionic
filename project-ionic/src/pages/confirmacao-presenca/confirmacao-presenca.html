@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title text-center>Confirmação de presença</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <ion-item>
+      <h2 text-center>Participante</h2>
+    </ion-item>
+    <img src="http://localhost:51990/Imagens/Usuario/{{participante?.Usuario.PathFotoPerfil}}"/>
+    <ion-card-content>
+      <ion-card-title>
+        <h3>{{participante?.Usuario.Nome}}</h3>
+        <h3>{{participante?.Usuario.Cpf}}</h3>
+      </ion-card-title>
+      <ion-row>
+        <ion-col>
+          <button ion-button icon-start clear small>
+            <ion-icon name="checkbox-outline"></ion-icon>
+            <div>Corfimar presença</div>
+          </button>
+        </ion-col>
+        <ion-col>
+          <button ion-button icon-start clear small>
+            <ion-icon name="close"></ion-icon>
+            <div>Cancelar</div>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
