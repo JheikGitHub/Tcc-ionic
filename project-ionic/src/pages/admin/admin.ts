@@ -33,37 +33,34 @@ export class AdminPage {
     );
   }
 
-  async scan() {
-   /*  await this.barcode.scan()
-      .then((codBarra) => { this.cod = codBarra })
-      .catch((err: Error) => {
-        this.toastMessage(err.message);
-      });
+  async scan(eventoId) {
 
-    if (this.cod.cancelled == true) {
-      this.toastMessage("Operação cancelada pelo usuário.");
-      return true;
-    } */
+    /*  await this.barcode.scan()
+       .then((codBarra) => { this.cod = codBarra })
+       .catch((err: Error) => {
+         this.toastMessage(err.message);
+       });
+ 
+     if (this.cod.cancelled == true) {
+       this.toastMessage("Operação cancelada pelo usuário.");
+       return true;
+     } */
 
     this.serviceParticipante.buscaParticipanteCodCarteirinha("015000002665").subscribe(
       (dados) => {
         if (!dados)
           this.toastMessage("Usuario não encontrado!");
-        this.navCtrl.push(ConfirmacaoPresencaPage.name, { usuario: dados });
+          
+        this.navCtrl.push(ConfirmacaoPresencaPage.name, { usuario: dados, eventoId: eventoId });
       },
       (err: HttpErrorResponse) => {
-        if (err.status == 0) {
-          this.toastMessage("Sem comunicação com servidor!");
-        }
-        else if (err.status == 400) {
-          this.toastMessage("Usuario não encontrado!");
-        }
-        else if (err.status == 500) {
-          this.toastMessage("Erro interno no Servidor!");
+        if (err.status == 401)
+          this.toastMessage("Usuário não logado.");
+        else {
+          this.toastMessage(err.error.Message)
         }
       }
     )
-
   }
 
   toastMessage(mensagem: string) {

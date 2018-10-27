@@ -32,4 +32,19 @@ export class ParticipanteProvider {
       }
     );
   }
+
+  confirmaPresenca(confirmacaoPresenca: ConfirmacaoPresenca) {
+    return this.http.post(URL_API + "/api/evento/confimacao-de-presenca-no-evento", confirmacaoPresenca, {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'bearer ' + this.token.getToken()
+        })
+    })
+}
+
+}
+
+export class ConfirmacaoPresenca {
+  UsuarioId: number;
+  EventoId: number;
 }

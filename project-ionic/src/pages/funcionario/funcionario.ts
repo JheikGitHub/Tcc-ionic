@@ -36,7 +36,7 @@ export class FuncionarioPage {
     );
   }
 
-  async scan() {
+  async scan(eventoId) {
     /*  await this.barcode.scan()
        .then((codBarra) => { this.cod = codBarra })
        .catch((err: Error) => {
@@ -52,17 +52,13 @@ export class FuncionarioPage {
       (dados) => {
         if (!dados)
           this.toastMessage("Usuario não encontrado!");
-        this.navCtrl.push(ConfirmacaoPresencaPage.name, { usuario: dados });
+        this.navCtrl.push(ConfirmacaoPresencaPage.name, { usuario: dados, eventoId: eventoId });
       },
       (err: HttpErrorResponse) => {
-        if (err.status == 0) {
-          this.toastMessage("Sem comunicação com servidor!");
-        }
-        else if (err.status == 400) {
-          this.toastMessage("Usuario não encontrado!");
-        }
-        else if (err.status == 500) {
-          this.toastMessage("Erro interno no Servidor!");
+        if (err.status == 401)
+          this.toastMessage("Usuário não logado.");
+        else {
+          this.toastMessage(err.error.Message)
         }
       }
     )

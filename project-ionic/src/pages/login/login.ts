@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, TextInput, LoadingController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, TextInput, LoadingController, AlertController, ToastController } from 'ionic-angular';
 
 import { LoginProvider, UserAuthenticateDTO } from '../../providers/login/login';
 import { Usuario } from '../../models/usuario';
@@ -23,6 +23,7 @@ export class LoginPage {
     public navParams: NavParams,
     private loginService: LoginProvider,
     private alert: AlertController,
+    private toast: ToastController,
     private loading: LoadingController) {
   }
 
@@ -30,6 +31,33 @@ export class LoginPage {
     setTimeout(() => {
       this.name.setFocus();
     }, 500);
+  }
+
+  login() {
+    this.loginService.autenticacao(this.user).subscribe(
+      (data: any) => {
+        this.presentLoading().present();
+        this.loginService.setToken(data.access_token);
+        this.loginService.getUser().subscribe(
+          (data: Usuario) => {
+            this.presentLoading().dismiss();
+            if (data.Perfil.toLocaleLowerCase() == "aluno") {
+              return this.navCtrl.push(ParticipantePage.name, { id: data.Id })
+            } else if (data.Perfil.toLocaleLowerCase() == "funcionario") {
+              return this.navCtrl.push(FuncionarioPage.name, { id: data.Id })
+            } else {
+              return this.navCtrl.push(AdminPage.name)
+            }
+          },
+        );
+      },
+      (err: HttpErrorResponse) => {
+        if (err.status == 401)
+          return this.toastMessage("Usuário não logado.");
+        else {
+          return this.toastMessage(err.error.error_description)
+        }
+      });
   }
 
   alertMessage(mensagem: string) {
@@ -40,39 +68,18 @@ export class LoginPage {
     }).present();
   }
 
+  toastMessage(mensagem: string) {
+    return this.toast.create({
+      message: mensagem,
+      position: "top",
+      duration: 5000
+    }).present();
+  }
+
   presentLoading() {
     return this.loading.create({
       content: "Aguarde...",
       duration: 3000
     });
-  }
-
-  login() {
-    this.presentLoading().present();
-    this.loginService.autenticacao(this.user).subscribe(
-      (data: any) => {
-        this.loginService.setToken(data.access_token);
-        this.loginService.getUser().subscribe(
-          (data: Usuario) => {
-            this.presentLoading().dismiss();
-            if (data.Perfil.toLocaleLowerCase() == "aluno") {
-              this.navCtrl.push(ParticipantePage.name, { id: data.Id })
-            } else if (data.Perfil.toLocaleLowerCase() == "funcionario") {
-              this.navCtrl.push(FuncionarioPage.name, { id: data.Id })
-            } else {
-              this.navCtrl.push(AdminPage.name)
-            }
-          },
-          (err: HttpErrorResponse) => {
-            this.presentLoading().dismiss();
-            if (err.status == 401) {
-              this.alertMessage("Acesso negado, verifique seu username e senha se estão corretos");
-            }
-            else {
-              this.alertMessage("falha ao realiza login");
-            }
-          }
-        );
-      });
   }
 }
