@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
-import { Participante } from '../../models/participante';
-import { ConfirmacaoPresenca, ParticipanteProvider } from '../../providers/participante/participante';
 import { HttpErrorResponse } from '@angular/common/http';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+
+import { LoginPage } from '../login/login';
+import { Participante } from '../../models/participante';
+import { LoginProvider } from '../../providers/login/login';
+import { ConfirmacaoPresenca, ParticipanteProvider } from '../../providers/participante/participante';
 
 @IonicPage()
 @Component({
@@ -16,6 +19,7 @@ export class ConfirmacaoPresencaPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
+    private tokem: LoginProvider,
     private alert: AlertController,
     private serviceParticipante: ParticipanteProvider
   ) {
@@ -46,11 +50,17 @@ export class ConfirmacaoPresencaPage {
     return this.alertMensagem('Operação cancelada.')
   }
 
+  logout() {
+    this.tokem.removeToken();
+    this.tokem.removeUser();
+    this.navCtrl.setRoot(LoginPage.name);
+  }
+
   alertMensagem(mensagem: string) {
     return this.alert.create({
       title: "Aviso.",
       message: mensagem,
-      buttons:["OK"]
+      buttons: ["OK"]
     }).present();
   }
 

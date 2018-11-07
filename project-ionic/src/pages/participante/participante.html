@@ -1,11 +1,26 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-title text-center>Minhas Inscrições</ion-title>
+    <ion-buttons end>
+        <button ion-button icon-only small (click)="logout()">
+          <ion-icon name="log-out"> </ion-icon>
+        </button>
+      </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
   <h2 text-center>Eventos</h2>
+  <ion-row>
+    <ion-col>
+      <div text-center>
+      <button ion-button icon-start  round (click)="scan()">
+        <ion-icon name="checkbox-outline"></ion-icon>
+        <div>Corfimar presença</div>
+      </button>
+    </div>
+    </ion-col>
+  </ion-row>
 
   <ion-list>
     <ion-card *ngFor="let evento of eventos">
@@ -16,16 +31,7 @@
       <ion-card-content>
         {{evento.Descricao}}
       </ion-card-content>
-
-      <ion-row>
-        <ion-col>
-          <button ion-button icon-start clear small (click)="scan(evento.Id)">
-            <ion-icon name="checkbox-outline"></ion-icon>
-            <div>Corfimar presença</div>
-          </button>
-        </ion-col>
-      </ion-row>
-
     </ion-card>
   </ion-list>
+  
 </ion-content>

@@ -4,6 +4,7 @@ import { FuncionarioPage } from './funcionario';
 import { FuncionarioProvider } from '../../providers/funcionario/funcionario';
 import { FiltrarEventoPipe } from '../../pipes/filtrar-evento/filtrar-evento';
 import { ParticipantePageModule } from '../participante/participante.module';
+import { LoginPageModule } from '../login/login.module';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { ParticipantePageModule } from '../participante/participante.module';
   ],
   imports: [
     IonicPageModule.forChild(FuncionarioPage),
-    ParticipantePageModule
+    ParticipantePageModule,
+    LoginPageModule
   ],
   providers:[FuncionarioProvider]
 })

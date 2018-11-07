@@ -4,6 +4,7 @@ import { AdminPage } from './admin';
 import { AdminProvider } from '../../providers/admin/admin';
 import { FuncionarioPageModule } from '../funcionario/funcionario.module';
 import { ParticipantePageModule } from '../participante/participante.module';
+import { LoginPageModule } from '../login/login.module';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { ParticipantePageModule } from '../participante/participante.module';
   imports: [
     IonicPageModule.forChild(AdminPage),
     ParticipantePageModule,
-    FuncionarioPageModule
+    FuncionarioPageModule,
+    LoginPageModule
   ],
   providers: [AdminProvider]
 })

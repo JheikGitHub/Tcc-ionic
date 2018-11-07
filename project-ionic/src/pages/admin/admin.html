@@ -1,6 +1,11 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-title text-center>Meus Eventos</ion-title>
+    <ion-buttons end>
+        <button ion-button icon-only small (click)="logout()">
+          <ion-icon name="log-out"> </ion-icon>
+        </button>
+      </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -10,9 +15,10 @@
     <ion-label floating>buscar evento</ion-label>
     <ion-input type="text" #filtro></ion-input>
   </ion-item>
-  
+
   <h2 text-center>Eventos</h2>
   
+ 
   <ion-list>
     <ion-card *ngFor="let evento of eventos | filtrarEvento : filtro.value">
       <img src="http://localhost:51990/Imagens/Eventos/{{evento.PathImagem}}" alt="Imagem do evento">
@@ -22,7 +28,7 @@
       <ion-card-content>
         {{evento.Descricao}}
       </ion-card-content>
-  
+
       <ion-row>
         <ion-col>
           <button ion-button icon-start clear small (click)="scan(evento.Id)">
@@ -31,7 +37,7 @@
           </button>
         </ion-col>
       </ion-row>
-  
+
     </ion-card>
   </ion-list>
 </ion-content>

@@ -3,6 +3,9 @@ import { IonicPage, NavController, NavParams, ToastController, AlertController }
 import { Evento } from '../../models/evento';
 import { ParticipanteProvider, ConfirmacaoPresenca } from '../../providers/participante/participante';
 import { HttpErrorResponse } from '@angular/common/http';
+import { BarcodeScanner, BarcodeScanResult } from '@ionic-native/barcode-scanner';
+import { LoginProvider } from '../../providers/login/login';
+import { LoginPage } from '../login/login';
 
 @IonicPage()
 @Component({
@@ -11,15 +14,19 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class ParticipantePage {
 
+
   private eventos: Evento[];
   private IdUsuario;
+  private cod: BarcodeScanResult;
   private confirmaPresenca: ConfirmacaoPresenca;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private service: ParticipanteProvider,
+    private tokem:LoginProvider,
     private toast: ToastController,
+    private barcode: BarcodeScanner,
     private alert: AlertController) {
   }
 
@@ -36,49 +43,38 @@ export class ParticipantePage {
     );
   }
 
-  async scan(eventoId) {
-    /*  await this.barcode.scan()
-       .then((codBarra) => { this.cod = codBarra })
-       .catch((err: Error) => {
-         this.toastMessage(err.message);
-       });
- 
-     if (this.cod.cancelled == true) {
-       this.toastMessage("Operação cancelada pelo usuário.");
-       return true;
-     } */
+  async scan() {
+    await this.barcode.scan()
+      .then((codBarra) => { this.cod = codBarra })
+      .catch((err: Error) => {
+        this.toastMessage(err.message);
+      });
 
-    this.service.buscaParticipanteCodCarteirinha("015000002665").subscribe(
-      (dados) => {
-        if (!dados)
-          return this.toastMessage("Usuario não encontrado!");
-          
-        if (dados.Id != this.IdUsuario)
-          return this.alertMensagem("Usuário encontrado é diferente do usuário que está logado. Por favor utilize seu código da carterinha estudantil")
+    if (this.cod.cancelled == true) {
+      this.toastMessage("Operação cancelada pelo usuário.");
+      return true;
+    }
 
-        this.confirmaPresenca = new ConfirmacaoPresenca();
-        this.confirmaPresenca.EventoId = eventoId;
-        this.confirmaPresenca.UsuarioId = dados.Id;
+    this.confirmaPresenca = new ConfirmacaoPresenca();
+    //troca idEvento por codigo escaniado
+    this.confirmaPresenca.EventoId = parseInt(this.cod.text);
+    this.confirmaPresenca.UsuarioId = this.IdUsuario;
 
-        this.service.confirmaPresenca(this.confirmaPresenca).subscribe(
-          () => {
-            let resultado = "Presença do(a) " + dados.Usuario.Nome + " confirmada com sucesso."
-            return this.alertMensagem(resultado);
-          },
-          (err: HttpErrorResponse) => {
-            return this.alertMensagem(err.error.Message)
-          }
-        );
-
+    this.service.confirmaPresenca(this.confirmaPresenca).subscribe(
+      () => {
+        return this.alertMensagem("Presença confirmada com sucesso.");
       },
       (err: HttpErrorResponse) => {
-        if (err.status == 401)
-          return this.toastMessage("Usuário não logado.");
-        else {
-          return this.toastMessage(err.error.Message)
-        }
+        return this.alertMensagem(err.error.Message)
       }
-    )
+    );
+  }
+
+  
+  logout() {
+    this.tokem.removeToken();
+    this.tokem.removeUser();
+    this.navCtrl.setRoot(LoginPage.name);
   }
 
   toastMessage(mensagem: string) {
@@ -93,7 +89,7 @@ export class ParticipantePage {
     return this.alert.create({
       title: "Aviso.",
       message: mensagem,
-      buttons:["OK"]
+      buttons: ["OK"]
     }).present();
   }
 }
