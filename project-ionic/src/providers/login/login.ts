@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-const URL_API = 'http://localhost:51990';
+const URL_API = 'http://192.168.0.104:3000';
 
 const USER = 'user';
 

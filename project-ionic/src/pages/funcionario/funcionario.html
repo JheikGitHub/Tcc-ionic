@@ -9,7 +9,6 @@
   </ion-navbar>
 </ion-header>
 
-
 <ion-content padding>
 
   <ion-item>
@@ -21,7 +20,7 @@
   
   <ion-list>
     <ion-card *ngFor="let evento of eventos | filtrarEvento : filtro.value">
-      <img src="http://localhost:51990/Imagens/Eventos/{{evento.PathImagem}}" alt="Imagem do evento">
+      <img src="http://192.168.0.104:3000/Imagens/Eventos/{{evento.PathImagem}}" alt="Imagem do evento">
       <ion-card-header>
         {{evento.Nome}}
       </ion-card-header>

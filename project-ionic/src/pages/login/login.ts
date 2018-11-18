@@ -34,19 +34,19 @@ export class LoginPage {
   }
 
   login() {
+    this.presentLoading().present();
     this.loginService.autenticacao(this.user).subscribe(
       (data: any) => {
-        this.presentLoading().present();
         this.loginService.setToken(data.access_token);
         this.loginService.getUser().subscribe(
           (data: Usuario) => {
             this.presentLoading().dismiss();
             if (data.Perfil.toLocaleLowerCase() == "aluno") {
-              return this.navCtrl.push(ParticipantePage.name, { id: data.Id })
+              return this.navCtrl.setRoot(ParticipantePage.name, { id: data.Id })
             } else if (data.Perfil.toLocaleLowerCase() == "funcionario") {
-              return this.navCtrl.push(FuncionarioPage.name, { id: data.Id })
+              return this.navCtrl.setRoot(FuncionarioPage.name, { id: data.Id })
             } else {
-              return this.navCtrl.push(AdminPage.name)
+              return this.navCtrl.setRoot(AdminPage.name)
             }
           },
         );
@@ -58,6 +58,7 @@ export class LoginPage {
           return this.toastMessage(err.error.error_description)
         }
       });
+    this.presentLoading().dismiss();
   }
 
   alertMessage(mensagem: string) {
@@ -79,7 +80,7 @@ export class LoginPage {
   presentLoading() {
     return this.loading.create({
       content: "Aguarde...",
-      duration: 3000
+      duration: 5000
     });
   }
 }

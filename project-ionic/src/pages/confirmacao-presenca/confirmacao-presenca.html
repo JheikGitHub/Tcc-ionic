@@ -2,20 +2,19 @@
   <ion-navbar color="primary">
     <ion-title text-center>Confirmação de presença</ion-title>
     <ion-buttons end>
-        <button ion-button icon-only small (click)="logout()">
-          <ion-icon name="log-out"> </ion-icon>
-        </button>
-      </ion-buttons>
-  </ion-navbar>
+      <button ion-button icon-only small (click)="logout()">
+        <ion-icon name="log-out"> </ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
   <ion-card>
-    <ion-item>
+    <ion-card-header>
       <h2 text-center>Participante</h2>
-    </ion-item>
-    <img src="http://localhost:51990/Imagens/Usuario/{{participante?.Usuario.PathFotoPerfil}}"/>
+    </ion-card-header>
+    <img src="http://192.168.0.104:3000/Imagens/Usuario/{{participante?.Usuario.PathFotoPerfil}}" />
     <ion-card-content>
       <ion-card-title>
         <h3>{{participante?.Usuario.Nome}}</h3>

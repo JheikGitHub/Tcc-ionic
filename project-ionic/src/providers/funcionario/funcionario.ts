@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { LoginProvider } from '../login/login';
 import { Evento } from '../../models/evento';
 
-const URL_API = 'http://localhost:51990';
+const URL_API = 'http://192.168.0.104:3000';
 
 @Injectable()
 export class FuncionarioProvider {

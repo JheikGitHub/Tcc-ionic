@@ -4,7 +4,7 @@ import { LoginProvider } from '../login/login';
 import { Evento } from '../../models/evento';
 import { Participante } from '../../models/participante';
 
-const URL_API = 'http://localhost:51990';
+const URL_API = 'http://192.168.0.104:3000';
 
 @Injectable()
 export class ParticipanteProvider {

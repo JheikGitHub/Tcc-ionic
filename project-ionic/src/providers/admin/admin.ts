@@ -4,7 +4,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Evento } from '../../models/evento';
 import { LoginProvider } from '../login/login';
 
-const URL_API = 'http://localhost:51990';
+
+const URL_API = 'http://192.168.0.104:3000';
 
 @Injectable()
 export class AdminProvider {

@@ -9,11 +9,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { LoginPageModule } from '../pages/login/login.module';
 import { UsuarioProvider } from '../providers/usuario/usuario';
 import { HomePage } from '../pages/home/home';
-import { ContactPage } from '../pages/contact/contact';
 
 @NgModule({
   declarations: [
-    MyApp, HomePage, ContactPage
+    MyApp, HomePage
 
   ],
   imports: [
@@ -23,8 +22,7 @@ import { ContactPage } from '../pages/contact/contact';
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp, HomePage,
-    ContactPage
+    MyApp, HomePage
   ],
   providers: [
     StatusBar,

@@ -6,6 +6,7 @@ import { LoginPage } from '../login/login';
 import { Participante } from '../../models/participante';
 import { LoginProvider } from '../../providers/login/login';
 import { ConfirmacaoPresenca, ParticipanteProvider } from '../../providers/participante/participante';
+import { AdminPage } from '../admin/admin';
 
 @IonicPage()
 @Component({
@@ -27,7 +28,7 @@ export class ConfirmacaoPresencaPage {
 
   ionViewDidLoad() {
     this.participante = new Participante();
-    this.participante = this.navParams.get('usuario');
+    this.participante = this.navParams.get('participante');
 
     this.confirmacaoPresenca = new ConfirmacaoPresenca();
     this.confirmacaoPresenca.UsuarioId = this.participante.Id;
@@ -38,7 +39,8 @@ export class ConfirmacaoPresencaPage {
     this.serviceParticipante.confirmaPresenca(this.confirmacaoPresenca).subscribe(
       () => {
         let resultado = "Presença do(a) " + this.participante.Usuario.Nome + " confirmada com sucesso."
-        return this.alertMensagem(resultado);
+        this.alertMensagem(resultado);
+        return this.navCtrl.setRoot(AdminPage.name);
       },
       (err: HttpErrorResponse) => {
         return this.alertMensagem(err.error.Message)

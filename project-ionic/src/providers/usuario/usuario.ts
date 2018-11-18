@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Usuario } from '../../models/usuario';
 import { LoginProvider } from '../login/login';
 
-const URL_API = 'http://localhost:51990';
+const URL_API = 'http://192.168.0.104:3000';
 
 @Injectable()
 export class UsuarioProvider {
