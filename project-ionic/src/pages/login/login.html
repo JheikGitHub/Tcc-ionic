@@ -1,23 +1,23 @@
 <ion-header>
 
-  <ion-navbar color="primary">
-    <ion-title text-center>KONOHA</ion-title>
+  <ion-navbar id="login-head" color="primary">
+    <ion-title text-center>Konoha</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 <ion-content >
-  <ion-item  text-center>
-      <img src="../../assets/icon.png" alt="KONOHA" width="100" height="100">
+  <ion-item  text-center id="icon-login">
+      <ion-icon  size="large" name="unlock" ></ion-icon>
   </ion-item>
   
   <form #loginForm="ngForm" (ngSubmit)="login()" autocomplete="off" padding>
-  <h2 text-center>Login</h2>
+  <h2 text-center>Acesse sua conta</h2>
     <ion-row>
       <ion-col>
         <ion-list inset>
           <ion-item>
-            <ion-input placeholder="Nome de usuário" name="username" id="loginField" type="text" required [(ngModel)]="user.username"
+            <ion-input placeholder="Informe seu email" name="username" id="loginField" type="text" required [(ngModel)]="user.username"
               #name></ion-input>
           </ion-item>
           <ion-item>
@@ -29,7 +29,7 @@
     <ion-row>
       <ion-col>
         <div *ngIf="error" class="alert alert-danger">{{error}}</div>
-        <button ion-button class="submit-btn"  type="submit" full color="secondary" [disabled]="!loginForm.form.valid">Acessar
+        <button ion-button class="submit-btn"  type="submit" block outline [disabled]="!loginForm.form.valid">Login
         </button>
       </ion-col>
     </ion-row>

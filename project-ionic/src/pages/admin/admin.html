@@ -1,39 +1,49 @@
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title text-center>
-      Meus Eventos
+    <ion-title>
+      Konoha
     </ion-title>
     <ion-buttons end>
-        <button ion-button icon-only small (click)="logout()">
-          <ion-icon name="log-out"> </ion-icon>
-        </button>
-      </ion-buttons>
+      <button ion-button icon-only (click)="logout()">
+        sair
+        <ion-icon name="log-out"> </ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
-  <ion-item>
-    <ion-label floating>buscar evento</ion-label>
+
+    <h1 id="titulo-page" text-center>Meus eventos</h1>
+
+<ion-row>
+  
+</ion-row>
+  <ion-item text-center >
+    <ion-label floating>Digite o nome ou titulo do evento</ion-label>
     <ion-input type="text" #filtro></ion-input>
   </ion-item>
-
-  <h2 text-center>Eventos</h2>
+  <div id="campo-pesquisa">
+    <button ion-button outline id="button-pesquisa" icon-only >
+        <ion-icon name="search"></ion-icon>
+    </button>
+  </div>
 
 
   <ion-list>
     <ion-card *ngFor="let evento of eventos | filtrarEvento : filtro.value">
-      <img src="http://192.168.0.104:3000/Imagens/Eventos/{{evento.PathImagem}}" alt="Imagem do evento">
+      <img src="http://192.168.0.104:3000/Imagens/Eventos/{{evento?.PathImagem}}" alt="Imagem do evento">
       <ion-card-header>
-        {{evento.Nome}}
+        {{evento?.Nome}}
       </ion-card-header>
       <ion-card-content>
-        {{evento.Descricao}}
+        {{evento?.Descricao}}
       </ion-card-content>
 
       <ion-row>
         <ion-col>
-          <button ion-button icon-start clear small (click)="scan(evento.Id)">
+          <button ion-button icon-start clear small (click)="scan(evento?.Id)">
             <ion-icon name="barcode"></ion-icon>
             <div>Confirmar presença</div>
           </button>

@@ -1,37 +1,21 @@
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title text-center>Minhas Inscrições</ion-title>
+    <ion-title>Konoha</ion-title>
     <ion-buttons end>
-        <button ion-button icon-only small (click)="logout()">
-          <ion-icon name="log-out"> </ion-icon>
-        </button>
-      </ion-buttons>
+      <button ion-button icon-only (click)="logout()">
+        <ion-icon name="log-out"> </ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h2 text-center>Eventos</h2>
-  <ion-row>
-    <ion-col>
-      <div text-center>
-      <button ion-button icon-start  round (click)="scan()">
-        <ion-icon name="checkbox-outline"></ion-icon>
-        <div>Corfimar presença</div>
-      </button>
-    </div>
-    </ion-col>
-  </ion-row>
+  <ion-item>
+    <h1 id="titulo-participante" text-center>Meus eventos</h1>
+  </ion-item>
+  <ion-item>
+    <button ion-button block>Confirmar minha presença</button>
+    <button ion-button block>Meu QR Code</button>
+  </ion-item>
 
-  <ion-list>
-    <ion-card *ngFor="let evento of eventos">
-      <img src="http://192.168.0.104:3000/Imagens/Eventos/{{evento.PathImagem}}" alt="Imagem do evento">
-      <ion-card-header>
-        {{evento.Nome}}
-      </ion-card-header>
-      <ion-card-content>
-        {{evento.Descricao}}
-      </ion-card-content>
-    </ion-card>
-  </ion-list>
-  
 </ion-content>

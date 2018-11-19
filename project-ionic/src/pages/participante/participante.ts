@@ -24,7 +24,7 @@ export class ParticipantePage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private service: ParticipanteProvider,
-    private tokem:LoginProvider,
+    private tokem: LoginProvider,
     private toast: ToastController,
     private barcode: BarcodeScanner,
     private alert: AlertController) {
@@ -32,20 +32,47 @@ export class ParticipantePage {
 
   ionViewDidLoad() {
     this.IdUsuario = this.navParams.get('id');
-
-    this.service.buscaEventosIncritos(this.IdUsuario).subscribe(
-      (data: Evento[]) => {
-        this.eventos = data
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
   }
 
   async scan() {
     await this.barcode.scan()
-      .then((codBarra) => { this.cod = codBarra })
+      .then((codBarra) => {
+
+        this.cod = codBarra
+
+        let alert = this.alert.create({
+          title: 'Aviso',
+          subTitle: 'QRcode escaneado:  ' + this.cod.text,
+          message: 'Correto?',
+          buttons: [
+            {
+              text: 'Sim',
+              handler: () => {
+                this.confirmaPresenca = new ConfirmacaoPresenca();
+                //troca idEvento por codigo escaniado
+                this.confirmaPresenca.EventoId = parseInt(this.cod.text);
+                this.confirmaPresenca.UsuarioId = this.IdUsuario;
+
+                this.service.confirmaPresenca(this.confirmaPresenca).subscribe(
+                  () => {
+                    return this.alertMensagem("Presença confirmada com sucesso.");
+                  },
+                  (err: HttpErrorResponse) => {
+                    return this.alertMensagem(err.error.Message)
+                  }
+                );
+              }
+            },
+            {
+              text: 'Não',
+              handler: () => {
+                this.scan();
+              }
+            }
+          ]
+        });
+        alert.present();
+      })
       .catch((err: Error) => {
         this.toastMessage(err.message);
       });
@@ -54,27 +81,28 @@ export class ParticipantePage {
       this.toastMessage("Operação cancelada pelo usuário.");
       return true;
     }
-
-    this.confirmaPresenca = new ConfirmacaoPresenca();
-    //troca idEvento por codigo escaniado
-    this.confirmaPresenca.EventoId = parseInt(this.cod.text);
-    this.confirmaPresenca.UsuarioId = this.IdUsuario;
-
-    this.service.confirmaPresenca(this.confirmaPresenca).subscribe(
-      () => {
-        return this.alertMensagem("Presença confirmada com sucesso.");
-      },
-      (err: HttpErrorResponse) => {
-        return this.alertMensagem(err.error.Message)
-      }
-    );
   }
 
-  
   logout() {
-    this.tokem.removeToken();
-    this.tokem.removeUser();
-    this.navCtrl.setRoot(LoginPage.name);
+    let alert = this.alert.create({
+      title: 'Aviso',
+      message: 'Encerrar sua sessão nesse dispositivo?',
+      buttons: [
+        {
+          text: 'Não'
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+            this.tokem.removeToken();
+            this.tokem.removeUser();
+            this.navCtrl.setRoot(LoginPage.name);
+          }
+        }
+      ]
+    });
+    alert.present();
+
   }
 
   toastMessage(mensagem: string) {

@@ -42,8 +42,9 @@ export class LoginPage {
           (data: Usuario) => {
             this.presentLoading().dismiss();
             if (data.Perfil.toLocaleLowerCase() == "aluno") {
-              return this.navCtrl.setRoot(ParticipantePage.name, { id: data.Id })
-            } else if (data.Perfil.toLocaleLowerCase() == "funcionario") {
+              return this.navCtrl.setRoot(ParticipantePage.name, { id: data.Id }) 
+            }
+             if (data.Perfil.toLocaleLowerCase() == "funcionario") {
               return this.navCtrl.setRoot(FuncionarioPage.name, { id: data.Id })
             } else {
               return this.navCtrl.setRoot(AdminPage.name)
