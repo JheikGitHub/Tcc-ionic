@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, AlertController } from 'ionic-angular';
-import { Evento } from '../../models/evento';
+
 import { ParticipanteProvider, ConfirmacaoPresenca } from '../../providers/participante/participante';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BarcodeScanner, BarcodeScanResult } from '@ionic-native/barcode-scanner';
 import { LoginProvider } from '../../providers/login/login';
 import { LoginPage } from '../login/login';
+import { Participante } from '../../models/participante';
 
 @IonicPage()
 @Component({
@@ -14,9 +15,9 @@ import { LoginPage } from '../login/login';
 })
 export class ParticipantePage {
 
-
-  private eventos: Evento[];
+  public myAngularxQrCode: string = null;
   private IdUsuario;
+  private participante: Participante;
   private cod: BarcodeScanResult;
   private confirmaPresenca: ConfirmacaoPresenca;
 
@@ -32,6 +33,17 @@ export class ParticipantePage {
 
   ionViewDidLoad() {
     this.IdUsuario = this.navParams.get('id');
+
+    this.participante = new Participante();
+
+    this.service.buscaParticipante(this.IdUsuario).subscribe(
+      (data) => { this.participante = data ,console.log(data);}
+      
+    );
+  }
+
+  createCode() {
+    this.myAngularxQrCode = 'Your QR code data string';
   }
 
   async scan() {
@@ -55,7 +67,7 @@ export class ParticipantePage {
 
                 this.service.confirmaPresenca(this.confirmaPresenca).subscribe(
                   () => {
-                    return this.alertMensagem("Presença confirmada com sucesso.");
+                    return this.alertMensagem("Sua presença no evento foi confirmada com sucesso");
                   },
                   (err: HttpErrorResponse) => {
                     return this.alertMensagem(err.error.Message)

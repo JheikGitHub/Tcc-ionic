@@ -1,8 +1,11 @@
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title>Konoha</ion-title>
+    <ion-title>
+      Konoha
+    </ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="logout()">
+        sair
         <ion-icon name="log-out"> </ion-icon>
       </button>
     </ion-buttons>
@@ -10,12 +13,39 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-item>
-    <h1 id="titulo-participante" text-center>Meus eventos</h1>
-  </ion-item>
-  <ion-item>
-    <button ion-button block>Confirmar minha presença</button>
-    <button ion-button block>Meu QR Code</button>
-  </ion-item>
+
+
+  <ion-card>
+    <ion-card-header>
+      <h1 text-center>{{participante?.Usuario?.Nome}}</h1>
+    </ion-card-header>
+    <ion-card-content>
+      <p>CPF: {{participante?.Usuario?.Cpf}}</p>
+      <p>Matricula: {{participante?.Matricula}}</p>
+    </ion-card-content>
+  </ion-card>
+  <ion-row class="button-acessar-camera">
+    <button ion-button icon-left outline block (click)="scan()">
+      <ion-icon name="checkbox-outline"></ion-icon>
+      Confirmar minha presença
+    </button>
+
+    <button ion-button icon-left outline block (click)="createCode()">
+      <ion-icon name="barcode"></ion-icon>
+      Meu QR Code
+    </button>
+
+  </ion-row>
+
+  <ion-card *ngIf="myAngularxQrCode">
+    <ion-card-header>
+
+    </ion-card-header>
+    <ion-card-content>
+      <qrcode [qrdata]="myAngularxQrCode" [size]="256" [level]="'M'"></qrcode>
+    </ion-card-content>
+  </ion-card>
+
+
 
 </ion-content>

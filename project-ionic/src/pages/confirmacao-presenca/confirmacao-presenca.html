@@ -1,8 +1,11 @@
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title text-center>Confirmação de presença</ion-title>
+    <ion-title>
+      Konoha
+    </ion-title>
     <ion-buttons end>
-      <button ion-button icon-only small (click)="logout()">
+      <button ion-button icon-only (click)="logout()">
+        sair
         <ion-icon name="log-out"> </ion-icon>
       </button>
     </ion-buttons>
@@ -10,31 +13,30 @@
 </ion-header>
 
 <ion-content padding>
+  <h1 id="titulo-page" text-center>Confirmar presença</h1>
+
   <ion-card>
-    <ion-card-header>
-      <h2 text-center>Participante</h2>
-    </ion-card-header>
-    <img src="http://192.168.0.104:3000/Imagens/Usuario/{{participante?.Usuario.PathFotoPerfil}}" />
+    <img src="http://192.168.0.104:3000/Imagens/Eventos/{{evento?.PathImagem}}" />
     <ion-card-content>
       <ion-card-title>
-        <h3>{{participante?.Usuario.Nome}}</h3>
-        <h3>{{participante?.Usuario.Cpf}}</h3>
+        <h1 text-center>{{evento?.Nome}}</h1>
       </ion-card-title>
-      <ion-row>
-        <ion-col>
-          <button ion-button icon-start clear small (click)="confirmaPresencaParticipante()">
-            <ion-icon name="checkbox-outline"></ion-icon>
-            <div>Corfimar presença</div>
-          </button>
-        </ion-col>
-        <ion-col>
-          <button ion-button icon-start clear small (click)="cancelarOperacao()">
-            <ion-icon name="close"></ion-icon>
-            <div>Cancelar</div>
-          </button>
-        </ion-col>
-      </ion-row>
+      <p>
+        <ion-row>
+          <ion-col col-6>
+            <button ion-button icon-left clear block small (click)="enviarDados()">
+              <ion-icon name="camera"></ion-icon>
+              Acessar câmera
+            </button>
+          </ion-col>
+          <ion-col col-6>
+            <button ion-button icon-left clear block small (click)="voltar()">
+              <ion-icon name="arrow-back"></ion-icon>
+              Voltar
+            </button>
+          </ion-col>
+        </ion-row>
+      </p>
     </ion-card-content>
   </ion-card>
-
 </ion-content>

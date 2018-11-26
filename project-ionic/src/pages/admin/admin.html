@@ -15,17 +15,17 @@
 
 <ion-content padding>
 
-    <h1 id="titulo-page" text-center>Meus eventos</h1>
+    <h1 id="titulo-page" text-center>Eventos</h1>
 
 <ion-row>
   
 </ion-row>
   <ion-item text-center >
-    <ion-label floating>Digite o nome ou titulo do evento</ion-label>
+    <ion-label floating>Digite nome ou tipo do evento</ion-label>
     <ion-input type="text" #filtro></ion-input>
   </ion-item>
   <div id="campo-pesquisa">
-    <button ion-button outline id="button-pesquisa" icon-only >
+    <button ion-button outline id="button-pesquisa" small icon-only >
         <ion-icon name="search"></ion-icon>
     </button>
   </div>
@@ -43,8 +43,8 @@
 
       <ion-row>
         <ion-col>
-          <button ion-button icon-start clear small (click)="scan(evento?.Id)">
-            <ion-icon name="barcode"></ion-icon>
+          <button ion-button icon-start clear small (click)="buscaIdEvento(evento.Id)">
+              <ion-icon ios="ios-checkbox-outline" md="md-checkbox-outline"></ion-icon>
             <div>Confirmar presença</div>
           </button>
         </ion-col>

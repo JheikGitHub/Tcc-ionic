@@ -1,0 +1,49 @@
+
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      Konoha
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="logout()">
+        sair
+        <ion-icon name="log-out"> </ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+    <h1 id="titulo-page" text-center>Confirmar presença</h1>
+  <div *ngIf="participante" >
+    <ion-card>
+      <ion-card-header>
+        <h2 text-center>Participante</h2>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-thumbnail item-start>
+            <img src="http://192.168.0.104:3000/Imagens/Usuario/{{participante?.Usuario.PathFotoPerfil}}" />
+          </ion-thumbnail>
+          <ion-card-title>
+            <h3>{{participante?.Usuario.Nome}}</h3>
+            <h3>{{participante?.Usuario.Cpf}}</h3>
+          </ion-card-title>
+        </ion-item>
+        <ion-col>
+          <button ion-button icon-start clear small (click)="confirmaPresencaParticipante()">
+              <ion-icon ios="ios-checkbox-outline" md="md-checkbox-outline"></ion-icon>
+            <div>Confirmar presença</div>
+          </button>
+        </ion-col>
+        <ion-col>
+          <button ion-button icon-start clear small (click)="cancelar()">
+            <ion-icon name="close-circle"></ion-icon>
+            <div>Cancelar</div>
+          </button>
+        </ion-col>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

@@ -3,6 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { ParticipantePage } from './participante';
 import { ParticipanteProvider } from '../../providers/participante/participante';
 import { LoginPageModule } from '../login/login.module';
+import { QRCodeModule } from 'angularx-qrcode';
 
 @NgModule({
   declarations: [
@@ -10,7 +11,8 @@ import { LoginPageModule } from '../login/login.module';
   ],
   imports: [
     IonicPageModule.forChild(ParticipantePage),
-    LoginPageModule
+    LoginPageModule,
+    QRCodeModule
   ],
   providers: [ParticipanteProvider]
 })

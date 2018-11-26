@@ -34,17 +34,18 @@ export class LoginPage {
   }
 
   login() {
-    this.presentLoading().present();
+
     this.loginService.autenticacao(this.user).subscribe(
       (data: any) => {
+        this.presentLoading().present();
         this.loginService.setToken(data.access_token);
         this.loginService.getUser().subscribe(
           (data: Usuario) => {
             this.presentLoading().dismiss();
             if (data.Perfil.toLocaleLowerCase() == "aluno") {
-              return this.navCtrl.setRoot(ParticipantePage.name, { id: data.Id }) 
+              return this.navCtrl.setRoot(ParticipantePage.name, { id: data.Id })
             }
-             if (data.Perfil.toLocaleLowerCase() == "funcionario") {
+            if (data.Perfil.toLocaleLowerCase() == "funcionario") {
               return this.navCtrl.setRoot(FuncionarioPage.name, { id: data.Id })
             } else {
               return this.navCtrl.setRoot(AdminPage.name)
@@ -53,13 +54,14 @@ export class LoginPage {
         );
       },
       (err: HttpErrorResponse) => {
+        this.presentLoading().dismiss();
         if (err.status == 401)
           return this.toastMessage("Usuário não logado.");
         else {
           return this.toastMessage(err.error.error_description)
         }
       });
-    this.presentLoading().dismiss();
+
   }
 
   alertMessage(mensagem: string) {

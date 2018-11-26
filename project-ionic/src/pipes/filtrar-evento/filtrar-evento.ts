@@ -7,9 +7,12 @@ import { Evento } from '../../models/evento';
 export class FiltrarEventoPipe implements PipeTransform {
 
   transform(eventos: Evento[], value: string) {
-    
+
     if (!value) return eventos;
 
-    return eventos.filter( evento => { return evento.Nome.toLowerCase().includes(value.toLowerCase()) })
+    return eventos.filter(evento => {
+      return evento.Nome.toLowerCase().includes(value.toLowerCase())
+        || evento.TipoEvento.toLowerCase().includes(value.toLowerCase())
+    })
   }
 }

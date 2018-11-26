@@ -10,6 +10,8 @@ import { LoginPageModule } from '../pages/login/login.module';
 import { UsuarioProvider } from '../providers/usuario/usuario';
 import { HomePage } from '../pages/home/home';
 
+import { ParticipantePageModule } from '../pages/participante/participante.module';
+
 @NgModule({
   declarations: [
     MyApp, HomePage
@@ -19,6 +21,7 @@ import { HomePage } from '../pages/home/home';
     BrowserModule,
     LoginPageModule,
     IonicModule.forRoot(MyApp)
+    
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -29,7 +32,8 @@ import { HomePage } from '../pages/home/home';
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     UsuarioProvider,
-    BarcodeScanner
+    BarcodeScanner,
+    
   ]
 })
 export class AppModule { }

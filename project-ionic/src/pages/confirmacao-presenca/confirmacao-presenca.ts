@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController,  } from 'ionic-angular';
 
 import { LoginPage } from '../login/login';
-import { Participante } from '../../models/participante';
 import { LoginProvider } from '../../providers/login/login';
-import { ConfirmacaoPresenca, ParticipanteProvider } from '../../providers/participante/participante';
+import { ParticipanteProvider } from '../../providers/participante/participante';
 import { AdminPage } from '../admin/admin';
+import { FuncionarioPage } from '../funcionario/funcionario';
+import { Evento } from '../../models/evento';
+import { ModalParticipantePage } from '../modal-participante/modal-participante';
 
 @IonicPage()
 @Component({
@@ -15,57 +16,58 @@ import { AdminPage } from '../admin/admin';
 })
 export class ConfirmacaoPresencaPage {
 
-  private participante: Participante;
-  private confirmacaoPresenca: ConfirmacaoPresenca;
+  private eventoId;
+  private evento: Evento;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private tokem: LoginProvider,
     private alert: AlertController,
     private serviceParticipante: ParticipanteProvider
-  ) {
-  }
+  ) { }
 
   ionViewDidLoad() {
-    this.participante = new Participante();
-    this.participante = this.navParams.get('participante');
-
-    this.confirmacaoPresenca = new ConfirmacaoPresenca();
-    this.confirmacaoPresenca.UsuarioId = this.participante.Id;
-    this.confirmacaoPresenca.EventoId = this.navParams.get('eventoId');
-  }
-
-  confirmaPresencaParticipante() {
-    this.serviceParticipante.confirmaPresenca(this.confirmacaoPresenca).subscribe(
-      () => {
-        let resultado = "Presença do(a) " + this.participante.Usuario.Nome + " confirmada com sucesso."
-        this.alertMensagem(resultado);
-        return this.navCtrl.setRoot(AdminPage.name);
-      },
-      (err: HttpErrorResponse) => {
-        return this.alertMensagem(err.error.Message)
+    this.eventoId = this.navParams.get('idEvento');
+    this.serviceParticipante.buscaEventoId(this.eventoId).subscribe(
+      (dados: Evento) => {
+        this.evento = new Evento();
+        this.evento = dados;
       }
     );
   }
 
-  cancelarOperacao() {
-    return this.alertMensagem('Operação cancelada.')
+  enviarDados() {
+    this.navCtrl.push(ModalParticipantePage.name, { idEvento: this.eventoId })
+  }
+
+  voltar() {
+    let perfil: string = this.navParams.get('perfil');
+    if (perfil.toLowerCase() == 'admin')
+      return this.navCtrl.setRoot(AdminPage.name);
+
+    if (perfil.toLowerCase() == 'funcionario')
+      return this.navCtrl.setRoot(FuncionarioPage.name);
   }
 
   logout() {
-    this.tokem.removeToken();
-    this.tokem.removeUser();
-    this.navCtrl.setRoot(LoginPage.name);
+    let alert = this.alert.create({
+      title: 'Aviso',
+      message: 'Encerrar sua sessão nesse dispositivo?',
+      buttons: [
+        {
+          text: 'Não'
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+            this.tokem.removeToken();
+            this.tokem.removeUser();
+            this.navCtrl.setRoot(LoginPage.name);
+          }
+        }
+      ]
+    });
+    alert.present();
+
   }
-
-  alertMensagem(mensagem: string) {
-    return this.alert.create({
-      title: "Aviso.",
-      message: mensagem,
-      buttons: ["OK"]
-    }).present();
-  }
-
-
-
 }
